@@ -13,6 +13,7 @@ import (
 
 import "github.com/go-yaml/yaml"
 
+// Config is handling the config parsing
 type Config struct {
 	Server struct {
 		Host string
@@ -21,6 +22,7 @@ type Config struct {
 	Feeds []string
 }
 
+// NewConfig return a new Config object
 func NewConfig(filename string) *Config {
 	var config Config
 	source, err := ioutil.ReadFile(filename)

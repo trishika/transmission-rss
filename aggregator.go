@@ -12,11 +12,13 @@ import (
 
 import "github.com/mmcdole/gofeed"
 
+// Aggregator is a RSS aggregator object
 type Aggregator struct {
 	feed     *gofeed.Feed
 	lastGUID string
 }
 
+// NewAggregator create a new Aggregator object
 func NewAggregator(url string, lastGUID string) *Aggregator {
 	fp := gofeed.NewParser()
 	feed, err := fp.ParseURL(url)
@@ -26,6 +28,7 @@ func NewAggregator(url string, lastGUID string) *Aggregator {
 	return &Aggregator{feed, lastGUID}
 }
 
+// GetNewItems return all the new items in the RSS feed
 func (a *Aggregator) GetNewItems() []*gofeed.Item {
 	for i, item := range a.feed.Items {
 		if item.GUID == a.lastGUID {
@@ -35,6 +38,7 @@ func (a *Aggregator) GetNewItems() []*gofeed.Item {
 	return a.feed.Items[:]
 }
 
+// GetNewTorrentURL return the url of all the new items in the RSS feed
 func (a *Aggregator) GetNewTorrentURL() []string {
 	urls := make([]string, 0)
 
