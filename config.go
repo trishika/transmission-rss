@@ -13,6 +13,10 @@ import (
 
 import "github.com/go-yaml/yaml"
 
+const defaultServerHost = "localhost"
+const defaultServerPort = "9091"
+const defaultUpdateInterval = 10
+
 // Config is handling the config parsing
 type Config struct {
 	Server struct {
@@ -33,6 +37,15 @@ func NewConfig(filename string) *Config {
 	err = yaml.Unmarshal(source, &config)
 	if err != nil {
 		log.Fatal(err)
+	}
+	if config.Server.Host == "" {
+		config.Server.Host = defaultServerHost
+	}
+	if config.Server.Port == "" {
+		config.Server.Port = defaultServerPort
+	}
+	if config.UpdateInterval == 0 {
+		config.UpdateInterval = defaultUpdateInterval
 	}
 	return &config
 }
