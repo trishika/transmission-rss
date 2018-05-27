@@ -14,13 +14,13 @@ import (
 import "github.com/jessevdk/go-flags"
 import "github.com/jasonlvhit/gocron"
 
-type Options struct {
+type options struct {
 	Config string `short:"c" long:"conf" description:"Config file" default:"/etc/transmission-rss.conf"`
 }
 
-var options Options
+var opt options
 
-var parser = flags.NewParser(&options, flags.Default)
+var parser = flags.NewParser(&opt, flags.Default)
 
 func main() {
 	if _, err := parser.Parse(); err != nil {
@@ -31,7 +31,7 @@ func main() {
 		}
 	}
 
-	config := NewConfig(options.Config)
+	config := NewConfig(opt.Config)
 
 	client := NewTransmission(fmt.Sprintf("%s:%s",
 		config.Server.Host, config.Server.Port))
