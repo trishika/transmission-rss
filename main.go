@@ -30,26 +30,18 @@ func main() {
 		}
 	}
 
-	fmt.Println(options.Config)
 	config := NewConfig(options.Config)
 
 	client := NewTransmission(fmt.Sprintf("%s:%s",
 		config.Server.Host, config.Server.Port))
 
+	cache := NewCache()
+
 	for _, feed := range config.Feeds {
-		aggregator := NewAggregator(feed, "")
-
-		items := aggregator.GetNewItems()
-
-		fmt.Printf("%d new items\n", len(items))
-
-		for _, item := range items {
-			fmt.Println(item.Title)
-		}
+		aggregator := NewAggregator(feed, cache)
 
 		urls := aggregator.GetNewTorrentURL()
 		for _, url := range urls {
-			fmt.Printf("Adding %s\n", url)
 			client.Add(url)
 		}
 	}
