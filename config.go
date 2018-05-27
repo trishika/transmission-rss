@@ -19,6 +19,7 @@ type Config struct {
 		Host string
 		Port string
 	}
+	UpdateInterval uint64 `yaml:"update_interval"`
 	Feeds []string
 }
 

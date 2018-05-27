@@ -12,6 +12,7 @@ import (
 )
 
 import "github.com/jessevdk/go-flags"
+import "github.com/jasonlvhit/gocron"
 
 type Options struct {
 	Config string `short:"c" long:"conf" description:"Config file" default:"/etc/transmission-rss.conf"`
@@ -37,12 +38,22 @@ func main() {
 
 	cache := NewCache()
 
-	for _, feed := range config.Feeds {
-		aggregator := NewAggregator(feed, cache)
+	update := func() {
+		for _, feed := range config.Feeds {
+			aggregator := NewAggregator(feed, cache)
 
-		urls := aggregator.GetNewTorrentURL()
-		for _, url := range urls {
-			client.Add(url)
+			urls := aggregator.GetNewTorrentURL()
+			for _, url := range urls {
+				client.Add(url)
+			}
 		}
 	}
+
+	// Run now
+	update()
+
+	// Schedule
+	gocron.Every(config.UpdateInterval).Minutes().Do(update)
+
+	<- gocron.Start()
 }
