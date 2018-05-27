@@ -1,0 +1,13 @@
+[Unit]
+Description=Transmission RSS daemon.
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/transmission-rss
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
