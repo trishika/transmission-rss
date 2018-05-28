@@ -1,0 +1,27 @@
+[[constraint]]
+  name = "github.com/atrox/homedir"
+  version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/go-yaml/yaml"
+  version = "2.2.1"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/jasonlvhit/gocron"
+
+[[constraint]]
+  name = "github.com/jessevdk/go-flags"
+  version = "1.4.0"
+
+[[constraint]]
+  name = "github.com/mmcdole/gofeed"
+  version = "1.0.0-beta2"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/trishika/transmission-go"
+
+[prune]
+  go-tests = true
+  unused-packages = true
