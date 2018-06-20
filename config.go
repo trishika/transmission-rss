@@ -24,7 +24,7 @@ type Config struct {
 		Port string
 	}
 	UpdateInterval uint64 `yaml:"update_interval"`
-	Feeds []string
+	Feeds          []string
 }
 
 // NewConfig return a new Config object

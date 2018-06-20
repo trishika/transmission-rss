@@ -7,11 +7,11 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"os"
 	"path"
-	"encoding/gob"
 )
 
 import "github.com/atrox/homedir"
@@ -57,12 +57,12 @@ func (c *Cache) Set(key string, value string) {
 	c.data[key] = value
 
 	err := writeGob(c.path, c.data)
-	if err != nil{
+	if err != nil {
 		log.Println(err)
 	}
 }
 
-func writeGob(filePath string,object interface{}) error {
+func writeGob(filePath string, object interface{}) error {
 	os.Mkdir(path.Dir(filePath), 0744)
 	file, err := os.Create(filePath)
 	if err != nil {
@@ -74,7 +74,7 @@ func writeGob(filePath string,object interface{}) error {
 	return err
 }
 
-func readGob(filePath string,object interface{}) error {
+func readGob(filePath string, object interface{}) error {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return err

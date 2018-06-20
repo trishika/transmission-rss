@@ -14,8 +14,8 @@ import "github.com/mmcdole/gofeed"
 
 // Aggregator is a RSS aggregator object
 type Aggregator struct {
-	url string
-	feed *gofeed.Feed
+	url   string
+	feed  *gofeed.Feed
 	cache *Cache
 }
 

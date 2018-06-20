@@ -55,5 +55,5 @@ func main() {
 	// Schedule
 	gocron.Every(config.UpdateInterval).Minutes().Do(update)
 
-	<- gocron.Start()
+	<-gocron.Start()
 }
