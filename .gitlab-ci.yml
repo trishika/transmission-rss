@@ -1,21 +1,17 @@
 image: golang:latest
 
 variables:
-  REPO_NAME: gitlab.com/aurelien.chabot/transmission-rss
+  NAME: transmission-rss
 
 before_script:
-  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-  - cd $GOPATH/src/$REPO_NAME
+  - mkdir -p $GOPATH/src/$(dirname $NAME)
+  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$NAME
+  - cd $GOPATH/src/$NAME
   - go get
 
-stages:
-  - build
-
 compile:
-  stage: build
   script:
-    - go build -o transmission-rss
+    - go build
   artifacts:
     paths:
-      - transmission-rss
+      - $NAME
