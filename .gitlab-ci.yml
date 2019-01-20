@@ -15,3 +15,9 @@ compile:
   artifacts:
     paths:
       - $NAME
+
+golint:
+  allow_failure: true
+  script:
+    - go get github.com/golang/lint/golint
+    - golint -set_exit_status
