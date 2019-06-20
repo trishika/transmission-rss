@@ -19,5 +19,5 @@ compile:
 golint:
   allow_failure: true
   script:
-    - go get github.com/golang/lint/golint
+    - go get -u golang.org/x/lint/golint
     - golint -set_exit_status
