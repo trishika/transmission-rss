@@ -20,7 +20,7 @@ const defaultUpdateInterval = 10
 
 type FilteredFeed struct {
 	Host    string
-	Pattern string
+	Pattern string `yaml:"regex"`
 	Matcher *regexp.Regexp
 }
 
