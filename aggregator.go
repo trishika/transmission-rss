@@ -54,7 +54,7 @@ func (a *Aggregator) GetNewTorrentURL() []string {
 
 		if a.url.Matcher.MatchString(item.Title) {
 			log.Println(item.Title + " MATCHED")
-			log.Println(a.url.Regex)
+			log.Println(a.url.Pattern)
 			urls = append(urls, item.Link)
 		} else {
 			log.Println(item.Title + " SKIPPED")

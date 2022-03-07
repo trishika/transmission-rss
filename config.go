@@ -20,7 +20,7 @@ const defaultUpdateInterval = 10
 
 type FilteredFeed struct {
 	Host    string
-	Regex   string
+	Pattern string
 	Matcher *regexp.Regexp
 }
 
@@ -55,7 +55,7 @@ func NewConfig(filename string) *Config {
 		config.UpdateInterval = defaultUpdateInterval
 	}
 	for num, _ := range config.Feeds {
-		config.Feeds[num].Matcher, err = regexp.Compile(config.Feeds[num].Regex)
+		config.Feeds[num].Matcher, err = regexp.Compile(config.Feeds[num].Pattern)
 		if err != nil {
 			log.Fatal(err)
 		}
