@@ -9,10 +9,10 @@ package main
 import (
 	"fmt"
 	"os"
-)
 
-import "github.com/jessevdk/go-flags"
-import "github.com/jasonlvhit/gocron"
+	"github.com/jasonlvhit/gocron"
+	"github.com/jessevdk/go-flags"
+)
 
 type options struct {
 	Config string `short:"c" long:"conf" description:"Config file" default:"/etc/transmission-rss.conf"`

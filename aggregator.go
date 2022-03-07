@@ -14,15 +14,15 @@ import "github.com/mmcdole/gofeed"
 
 // Aggregator is a RSS aggregator object
 type Aggregator struct {
-	url   string
+	url   FilteredFeed
 	feed  *gofeed.Feed
 	cache *Cache
 }
 
 // NewAggregator create a new Aggregator object
-func NewAggregator(url string, cache *Cache) *Aggregator {
+func NewAggregator(url FilteredFeed, cache *Cache) *Aggregator {
 	fp := gofeed.NewParser()
-	feed, err := fp.ParseURL(url)
+	feed, err := fp.ParseURL(url.Host)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +31,7 @@ func NewAggregator(url string, cache *Cache) *Aggregator {
 
 // GetNewItems return all the new items in the RSS feed
 func (a *Aggregator) GetNewItems() []*gofeed.Item {
-	guid, err := a.cache.Get(a.url)
+	guid, err := a.cache.Get(a.url.Host)
 	if err != nil {
 		return a.feed.Items[:]
 	}
@@ -51,11 +51,17 @@ func (a *Aggregator) GetNewTorrentURL() []string {
 	log.Printf("%d new items\n", len(items))
 
 	for _, item := range items {
-		log.Println(item.Title)
-		urls = append(urls, item.Link)
+
+		if a.url.Matcher.MatchString(item.Title) {
+			log.Println(item.Title + " MATCHED")
+			log.Println(a.url.Regex)
+			urls = append(urls, item.Link)
+		} else {
+			log.Println(item.Title + " SKIPPED")
+		}
 	}
 	if len(items) > 0 {
-		a.cache.Set(a.url, items[0].GUID)
+		a.cache.Set(a.url.Host, items[0].GUID)
 	}
 	return urls
 }
