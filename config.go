@@ -9,13 +9,20 @@ package main
 import (
 	"io/ioutil"
 	"log"
-)
+	"regexp"
 
-import "github.com/go-yaml/yaml"
+	"github.com/go-yaml/yaml"
+)
 
 const defaultServerHost = "localhost"
 const defaultServerPort = "9091"
 const defaultUpdateInterval = 10
+
+type FilteredFeed struct {
+	Host    string
+	Pattern string `yaml:"regex"`
+	Matcher *regexp.Regexp
+}
 
 // Config is handling the config parsing
 type Config struct {
@@ -24,7 +31,7 @@ type Config struct {
 		Port string
 	}
 	UpdateInterval uint64 `yaml:"update_interval"`
-	Feeds          []string
+	Feeds          []FilteredFeed
 }
 
 // NewConfig return a new Config object
@@ -46,6 +53,12 @@ func NewConfig(filename string) *Config {
 	}
 	if config.UpdateInterval == 0 {
 		config.UpdateInterval = defaultUpdateInterval
+	}
+	for num, _ := range config.Feeds {
+		config.Feeds[num].Matcher, err = regexp.Compile(config.Feeds[num].Pattern)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	return &config
 }
